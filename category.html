@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-    <header class="header">
+    <header class="header" id="header">
         <article class="header-1">
             <img src="image/azhur_logo.png" alt="azhur_logo" class="azhur_logo">
             <form action="" class="search-form">
@@ -21,19 +21,18 @@
                 <img src="image/search_logo.png" alt="Search Logo" class="search-logo-solo">
                 <img src="image/shopping_cart.png" alt="Search Logo" class="shopping_cart">
         </article>
+        <nav id="header-2">
+            <ul>
+                <li><a href="#">Үсгийн дарааллаар</a></li>
+                <li><a href="#">Үнээр(Өсөхөөр)</a></li>
+                <li><a href="#">Үнээр(Буурах)</a></li>
+                <li><a href="#">Үнэлгээгээр</a></li>
+                <li id="categoryButton" class="category" style="margin-left: 10rem;">
+                    <a href="#"><img src="image/menu.png" style="width: 1rem;"></a>
+                </li>
+            </ul>
+        </nav>
     </header>
-
-    <nav>
-        <ul>
-            <li><a href="#">Үсгийн дарааллаар</a></li>
-            <li><a href="#">Үнээр(Өсөхөөр)</a></li>
-            <li><a href="#">Үнээр(Буурах)</a></li>
-            <li><a href="#">Үнэлгээгээр</a></li>
-            <li id="categoryButton" class="category" style="margin-left: 10rem;">
-                <a href="#"><img src="image/menu.png" style="width: 1rem;"></a>
-            </li>
-        </ul>
-    </nav>
 
     <aside class="sidebar">
         <h2>Ангилал</h2>
@@ -44,7 +43,7 @@
         </ul>
     </aside>
 
-    <section id="bookSection">
+    <section class="books" id="bookSection">
         <h2>Most Viewed Books</h2>
         <p>Description of the most viewed category.</p>
         <div class="book-list">

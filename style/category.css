@@ -8,7 +8,7 @@ body {
 }
 
 nav {
-    background: #eee;
+    background: #ef923a;
     padding: 1rem;
     text-align: center;
 }
@@ -79,35 +79,6 @@ section {
     color: var(--light-color);
 }
 
-footer {
-    background-color: #121315;
-    color: #a7a7a7;
-    font-size: 1.3rem;
-    padding: 2rem 0;
-    text-align: center;
-}
-
-footer ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-}
-
-footer li:not(:first-child) {
-    margin-top: 0.8em;
-}
-
-footer ul li a {
-    color: #a7a7a7;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-footer ul li a:hover {
-    color: var(--orange);
-}
 
 .about p {
     text-align: justify;
@@ -127,11 +98,12 @@ h2 ,p{
     background: #eee;
     padding: 1rem;
     width: 20%;
-    position: absolute;
+    position: fixed;
     height: 100%;
     overflow-y: auto;
     display: block;
     right: -20%;
+    top: 18%;
     transition: right 0.3s ease;
 }
 
@@ -175,4 +147,17 @@ h2 ,p{
 .kart{
     flex: 1;
     padding: 5rem 9%;
+}
+
+#header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.books,footer{
+    top: 12.5rem;
+    position: relative;
 }

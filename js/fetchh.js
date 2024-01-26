@@ -1,3 +1,4 @@
+//json-1
 function fetchAndDisplayAuthors() {
     fetch('authors.json')
         .then(response => response.json())
@@ -21,6 +22,9 @@ function fetchAndDisplayAuthors() {
         .catch(error => console.error('Error fetching data:', error));
 }
 fetchAndDisplayAuthors();
+
+
+//json-2
 document.addEventListener('DOMContentLoaded', function () {
     const jsonUrl = 'https://api.jsonbin.io/v3/b/65aeffa3266cfc3fde7e3427/latest';
     let booksData;
