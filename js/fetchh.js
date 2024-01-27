@@ -28,10 +28,14 @@ fetchAndDisplayAuthors();
 document.addEventListener('DOMContentLoaded', function () {
     const jsonUrl = 'https://api.jsonbin.io/v3/b/65aeffa3266cfc3fde7e3427/latest';
     let booksData;
+    let currentCategory = '';
+    let currentSortBy = '';
 
     function fetchAndDisplayBooks(category = '', sortBy = '') {
         const bookList = document.querySelector('.book-list');
         bookList.innerHTML = '';
+
+        currentCategory = category;
 
         const filteredBooks = category
             ? booksData.record.filter(book => book.category === category)
@@ -63,20 +67,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function handleSidebarItemClick(category) {
+    function handleSortButtonClick(sortBy) {
+        currentSortBy = sortBy;
+        fetchAndDisplayBooks(currentCategory, currentSortBy);
+    }
+
+    const categoryButton = document.getElementById('categoryButton');
+    categoryButton.addEventListener('click', function () {
         const sidebar = document.querySelector('.sidebar');
         const mainSection = document.querySelector('section');
 
-        sidebar.classList.remove('active');
-        mainSection.style.marginRight = '0';
-
-        fetchAndDisplayBooks(category);
-    }
-
-    function getActiveCategory() {
-        const activeCategory = document.querySelector('.sidebar ul li a.active');
-        return activeCategory ? activeCategory.textContent.trim() : '';
-    }
+        sidebar.classList.toggle('active');
+        mainSection.style.marginRight = sidebar.classList.contains('active') ? '20%' : '0';
+    });
 
     const sidebarItems = document.querySelectorAll('.sidebar ul li a');
     sidebarItems.forEach(item => {
@@ -96,20 +99,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function handleSortButtonClick(sortBy) {
-        const category = getActiveCategory();
-        fetchAndDisplayBooks(category, sortBy);
-    }
-
-    const categoryButton = document.getElementById('categoryButton');
-    categoryButton.addEventListener('click', function () {
+    function handleSidebarItemClick(category) {
         const sidebar = document.querySelector('.sidebar');
         const mainSection = document.querySelector('section');
 
-        sidebar.classList.toggle('active');
-        mainSection.style.marginRight = sidebar.classList.contains('active') ? '20%' : '0';
-    });
+        sidebar.classList.remove('active');
+        mainSection.style.marginRight = '0';
 
+        fetchAndDisplayBooks(category, currentSortBy);
+    }
+
+    // Fetch data and display books initially
     fetch(jsonUrl)
         .then(response => response.json())
         .then(data => {
@@ -118,4 +118,3 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.error('Error fetching data:', error));
 });
-
