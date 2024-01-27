@@ -37,9 +37,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         currentCategory = category;
 
-        const filteredBooks = category
-            ? booksData.record.filter(book => book.category === category)
-            : booksData.record;
+        let filteredBooks;
+        //category hooson bol filter hiihgu
+        if (category) {
+            filteredBooks = booksData.record.filter(book => book.category === category);
+        } else {
+            filteredBooks = booksData.record;
+        }
 
         let sortedBooks = [...filteredBooks];
 
