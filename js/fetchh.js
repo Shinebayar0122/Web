@@ -31,21 +31,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentCategory = '';
     let currentSortBy = '';
 
-    function fetchAndDisplayBooks(category = '', sortBy = '') {
+    function fetchAndDisplayBooks(category = '', sortBy = '', filterBooks = []) {
         const bookList = document.querySelector('.book-list');
         bookList.innerHTML = '';
 
+        const booksToDisplay = filterBooks.length > 0 ? filterBooks : booksData.record;
+
         currentCategory = category;
 
-        let filteredBooks;
-        //category hooson bol filter hiihgu
-        if (category) {
-            filteredBooks = booksData.record.filter(book => book.category === category);
-        } else {
-            filteredBooks = booksData.record;
-        }
-
-        let sortedBooks = [...filteredBooks];
+        let sortedBooks = [...booksToDisplay];
 
         if (sortBy === 'Үсгийн дарааллаар') {
             sortedBooks.sort((a, b) => a.name.localeCompare(b.name));
@@ -76,6 +70,16 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchAndDisplayBooks(currentCategory, currentSortBy);
     }
 
+    function handleSidebarItemClick(category) {
+        const sidebar = document.querySelector('.sidebar');
+        const mainSection = document.querySelector('section');
+
+        sidebar.classList.remove('active');
+        mainSection.style.marginRight = '0';
+
+        fetchAndDisplayBooks(category, currentSortBy);
+    }
+
     const categoryButton = document.getElementById('categoryButton');
     categoryButton.addEventListener('click', function () {
         const sidebar = document.querySelector('.sidebar');
@@ -103,17 +107,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function handleSidebarItemClick(category) {
-        const sidebar = document.querySelector('.sidebar');
-        const mainSection = document.querySelector('section');
+    const searchInput = document.getElementById('search-bar');
 
-        sidebar.classList.remove('active');
-        mainSection.style.marginRight = '0';
+    searchInput.addEventListener('input', function () {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        filterBooksByName(searchTerm);
+    });
 
-        fetchAndDisplayBooks(category, currentSortBy);
+    function filterBooksByName(searchTerm) {
+        const filteredBooks = booksData.record.filter(book =>
+            book.name.toLowerCase().includes(searchTerm)
+        );
+
+        fetchAndDisplayBooks(currentCategory, currentSortBy, filteredBooks);
     }
 
-    // Fetch data and display books initially
     fetch(jsonUrl)
         .then(response => response.json())
         .then(data => {
