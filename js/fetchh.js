@@ -23,7 +23,6 @@ function fetchAndDisplayAuthors() {
 }
 fetchAndDisplayAuthors();
 
-
 //json-2
 document.addEventListener('DOMContentLoaded', function () {
     const jsonUrl = 'https://api.jsonbin.io/v3/b/65aeffa3266cfc3fde7e3427/latest';
@@ -35,22 +34,25 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchResultsContainer = document.querySelector('.search-results');
         const searchList = document.createElement('ul');
         searchList.className = 'search-list';
-    
+
         searchResults.forEach(result => {
             const listItem = document.createElement('li');
             listItem.className = 'search-list-item';
             listItem.innerHTML = `<p>${result.name} - ${result.author}</p>`;
             searchList.appendChild(listItem);
         });
+
         const searchInput = document.getElementById('search-bar');
         searchInput.addEventListener('focus', function () {
             searchList.style.display = 'block';
         });
+
         searchInput.addEventListener('blur', function () {
             setTimeout(() => {
                 searchList.style.display = 'none';
             }, 200);
         });
+
         searchResultsContainer.innerHTML = '';
         searchResultsContainer.appendChild(searchList);
     }
@@ -64,6 +66,10 @@ document.addEventListener('DOMContentLoaded', function () {
         currentCategory = category;
 
         let sortedBooks = [...booksToDisplay];
+
+        if (currentCategory) {
+            sortedBooks = sortedBooks.filter(book => book.category.toLowerCase() === currentCategory.toLowerCase());
+        }
 
         if (sortBy === 'Үсгийн дарааллаар') {
             sortedBooks.sort((a, b) => a.name.localeCompare(b.name));
@@ -154,3 +160,4 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.error('Error fetching data:', error));
 });
+
