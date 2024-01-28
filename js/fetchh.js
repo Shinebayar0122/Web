@@ -31,6 +31,30 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentCategory = '';
     let currentSortBy = '';
 
+    function displaySearchResults(searchResults) {
+        const searchResultsContainer = document.querySelector('.search-results');
+        const searchList = document.createElement('ul');
+        searchList.className = 'search-list';
+    
+        searchResults.forEach(result => {
+            const listItem = document.createElement('li');
+            listItem.className = 'search-list-item';
+            listItem.innerHTML = `<p>${result.name} - ${result.author}</p>`;
+            searchList.appendChild(listItem);
+        });
+        const searchInput = document.getElementById('search-bar');
+        searchInput.addEventListener('focus', function () {
+            searchList.style.display = 'block';
+        });
+        searchInput.addEventListener('blur', function () {
+            setTimeout(() => {
+                searchList.style.display = 'none';
+            }, 200);
+        });
+        searchResultsContainer.innerHTML = '';
+        searchResultsContainer.appendChild(searchList);
+    }
+
     function fetchAndDisplayBooks(category = '', sortBy = '', filterBooks = []) {
         const bookList = document.querySelector('.book-list');
         bookList.innerHTML = '';
@@ -63,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             bookList.appendChild(bookElement);
         });
+
+        displaySearchResults(filterBooks);
     }
 
     function handleSortButtonClick(sortBy) {
@@ -111,16 +137,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     searchInput.addEventListener('input', function () {
         const searchTerm = searchInput.value.trim().toLowerCase();
-        filterBooksByName(searchTerm);
-    });
-
-    function filterBooksByName(searchTerm) {
         const filteredBooks = booksData.record.filter(book =>
-            book.name.toLowerCase().includes(searchTerm)
+            book.name.toLowerCase().includes(searchTerm) ||
+            book.category.toLowerCase().includes(searchTerm) ||
+            book.author.toLowerCase().includes(searchTerm)
         );
 
         fetchAndDisplayBooks(currentCategory, currentSortBy, filteredBooks);
-    }
+    });
 
     fetch(jsonUrl)
         .then(response => response.json())
