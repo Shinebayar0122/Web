@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <!-- Add any additional stylesheets, scripts, or meta tags as needed -->
+</head>
+<body>
+
+    <h1>Search Results</h1>
+
+    <div id="search-results-container">
+        <!-- The search results will be dynamically added here using JavaScript -->
+    </div>
+
+    <script>
+        // Function to get the value of a query parameter from the URL
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Simulate search results data (replace with actual data retrieval logic)
+        const searchData = [
+            { name: 'Book 1', author: 'Author 1', category: 'Category 1', price: '$10', pic: 'image/book1.jpg' },
+            { name: 'Book 2', author: 'Author 2', category: 'Category 2', price: '$15', pic: 'image/book2.jpg' },
+            // Add more search results as needed
+        ];
+
+        function displayResults(results) {
+            const searchResultsContainer = document.getElementById('search-results-container');
+            searchResultsContainer.innerHTML = '';
+
+            results.forEach(book => {
+                const resultElement = document.createElement('div');
+                resultElement.innerHTML = `
+                    <h3>${book.name}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Category: ${book.category}</p>
+                    <p>Price: ${book.price}</p>
+                    <img src="${book.pic}" alt="${book.name} Image">
+                `;
+                searchResultsContainer.appendChild(resultElement);
+            });
+        }
+
+        // Get the search term from the URL
+        const searchTerm = getQueryParam('q');
+
+        if (searchTerm) {
+            // Filter search results based on the search term (replace with actual data retrieval logic)
+            const filteredResults = searchData.filter(book => book.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+            // Display search results
+            displayResults(filteredResults);
+        } else {
+            // No search term provided, handle accordingly (optional)
+            console.error('No search term provided.');
+        }
+    </script>
+
+    <!-- Add any additional scripts as needed -->
+
+</body>
+</html>

@@ -33,6 +33,50 @@
         </article>
     </header>
 
+    <script>
+        const searchResultsPageURL = 'result.html';
+    
+        fetch('https://api.jsonbin.io/v3/b/65aeffa3266cfc3fde7e3427/latest')
+            .then(response => response.json())
+            .then(data => {
+                const searchForm = document.querySelector('.search-form');
+                const searchResults = document.getElementById('search-results');
+                const searchBtn = document.getElementById('search-btn');
+    
+                searchForm.addEventListener('submit', function (event) {
+                    event.preventDefault();
+    
+                    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    
+                    const filteredData = data.record.filter(book => book.name.toLowerCase().includes(searchTerm));
+    
+                    displayResults(filteredData);
+                });
+    
+                searchBtn.addEventListener('click', function () {
+                    // Redirect to the search results page
+                    window.location.href = searchResultsPageURL;
+                });
+    
+                function displayResults(results) {
+                    searchResults.innerHTML = '';
+    
+                    results.forEach(book => {
+                        const resultElement = document.createElement('div');
+                        resultElement.innerHTML = `
+                            <h3>${book.name}</h3>
+                            <p>Author: ${book.author}</p>
+                            <p>Category: ${book.category}</p>
+                            <p>Price: ${book.price}</p>
+                            <img src="${book.pic}" alt="${book.name} Image">
+                        `;
+                        searchResults.appendChild(resultElement);
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+
     <nav class="mobile-navbar">
         <a href="#gat">Ангилал</a>
     </nav>
